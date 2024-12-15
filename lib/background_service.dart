@@ -2,7 +2,6 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:hive/hive.dart';
 
 import 'hive_show_data.dart';
 
@@ -14,18 +13,6 @@ class backgroundService extends StatefulWidget {
 }
 
 class _backgroundServiceState extends State<backgroundService> {
-  // final _todoBox = Hive.box('myBox');
-  //
-  // Future<void> saveDateTimeToHive() async {
-  //   _todoBox.add(
-  //       DateTime.now().toString()); // Converts DateTime to string for storage
-  // }
-  // List<dynamic> data = [];
-  // final dataBox = Hive.box('myBox');
-  // Future<void> getData() async {
-  //   data = dataBox.get('timeData');
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,22 +22,36 @@ class _backgroundServiceState extends State<backgroundService> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            //layout
-            SizedBox(
-              height: 200,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                FlutterBackgroundService().invoke("StopService");
-              },
-              child: Text("Stop service"),
-            ),
+          children: [
             ElevatedButton(
               onPressed: () {
                 FlutterBackgroundService().startService();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Start service command sent'),
+                  ),
+                );
+                print("Start service command sent");
               },
               child: Text("Start service"),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                FlutterBackgroundService().invoke("stopService");
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Stop service command sent'),
+                  ),
+                );
+                print("Stop service command sent");
+              },
+              child: Text("Stop service"),
+            ),
+            SizedBox(
+              height: 10,
             ),
             ElevatedButton(
               onPressed: () {

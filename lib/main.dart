@@ -36,7 +36,7 @@ Future<void> initservice() async {
     );
   }
 
-  // Properly configure the notification channel
+
   const AndroidNotificationChannel notificationChannel =
       AndroidNotificationChannel(
     "coding_is_life_foreground", // Use consistent channel ID
@@ -50,7 +50,7 @@ Future<void> initservice() async {
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(notificationChannel);
 
-  // Configure the background service
+
   await service.configure(
     iosConfiguration: IosConfiguration(
       onBackground: iosBackground,
@@ -60,7 +60,7 @@ Future<void> initservice() async {
       onStart: onStart,
       autoStart: true,
       isForegroundMode: true,
-      notificationChannelId: notificationChannel.id, // Use the channel ID here
+      notificationChannelId: notificationChannel.id,
       initialNotificationTitle: "Coding is Life",
       initialNotificationContent: "Awesome Content",
       foregroundServiceNotificationId: 90,
@@ -89,7 +89,7 @@ void onStart(ServiceInstance service) async {
     service.stopSelf();
   });
 
-  Timer.periodic(const Duration(seconds: 60), (timer) async {
+  Timer.periodic(const Duration(seconds: 5), (timer) async {
     print("Background service ${DateTime.now()}");
     await box.add(DateTime.now().toString()); // Use the opened box here
     print('Successfully added to Hive');
@@ -114,14 +114,6 @@ void onStart(ServiceInstance service) async {
   });
 }
 
-// Future<void> saveDateTimeToHive() async {
-//   final _todoBox = Hive.box('myBox');
-//
-//   _todoBox.add(DateTime.now().toString());
-//   print(_todoBox);
-//   print('successfully added');
-// }
-
 //iosbackground
 @pragma("vm:enry-point")
 Future<bool> iosBackground(ServiceInstance service) async {
@@ -134,7 +126,7 @@ Future<bool> iosBackground(ServiceInstance service) async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -147,44 +139,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({super.key, required this.title});
-//
-//   final String title;
-//
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
-//
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(widget.title),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             //layout
-//             SizedBox(
-//               height: 200,
-//             ),
-//             ElevatedButton(
-//                 onPressed: () {
-//                   FlutterBackgroundService().invoke("stopService");
-//                 },
-//                 child: Text("stop service")),
-//             ElevatedButton(
-//                 onPressed: () {
-//                   FlutterBackgroundService().startService();
-//                 },
-//                 child: Text("start service")),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
